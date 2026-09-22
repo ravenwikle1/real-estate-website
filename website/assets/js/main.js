@@ -104,12 +104,41 @@
       img.src = a.getAttribute('href'); img.alt = t ? t.alt : ''; cap.textContent = t ? t.alt : '';
     };
     var open = function (i) { last = document.activeElement; show(i); lb.hidden = false; document.body.style.overflow = 'hidden'; lb.querySelector('.lb__close').focus(); };
-    var close = function () { lb.hidden = true; document.body.style.overflow = ''; if (last) last.focus(); };
+    var close = function () { lb.hidden = true; document.body.style.overflow = ''; if (dshow) dshow(cur); if (last) last.focus(); };
+
+    /* Listing photo viewer: thumbnails change the big photo; the big photo opens the lightbox. */
+    var dv = document.querySelector('.dviewer'), dshow = null;
+    if (dv) {
+      var dimg = document.getElementById('dv-img'), dcount = document.getElementById('dv-count');
+      var strip = dv.querySelector('.dgallery--strip'), dcur = 0;
+      dshow = function (i) {
+        var live = links.filter(function (a) { return a.isConnected; });
+        if (!live.length) return;
+        dcur = (i + live.length) % live.length;
+        var a = live[dcur], t = a.querySelector('img'), fig = a.parentNode;
+        dimg.src = a.getAttribute('href'); dimg.alt = t ? t.alt : '';
+        dcount.textContent = (dcur + 1) + ' / ' + live.length;
+        live.forEach(function (x, k) { x.parentNode.classList.toggle('is-current', k === dcur); });
+        strip.scrollTo({ left: fig.offsetLeft - strip.offsetLeft - (strip.clientWidth - fig.offsetWidth) / 2, behavior: 'smooth' });
+      };
+      dv.querySelector('.dviewer__prev').addEventListener('click', function () { dshow(dcur - 1); });
+      dv.querySelector('.dviewer__next').addEventListener('click', function () { dshow(dcur + 1); });
+      dv.querySelector('.dviewer__main').addEventListener('click', function (e) { e.preventDefault(); open(dcur); });
+      var sx = null, stage = dv.querySelector('.dviewer__stage');
+      stage.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+      stage.addEventListener('touchend', function (e) {
+        if (sx === null) return;
+        var dx = e.changedTouches[0].clientX - sx; sx = null;
+        if (Math.abs(dx) > 40) dshow(dcur + (dx < 0 ? 1 : -1));
+      });
+      dshow(0);
+    }
+
     links.forEach(function (a) {
       a.addEventListener('click', function (e) {
         e.preventDefault();
         var live = links.filter(function (x) { return x.isConnected; });
-        open(live.indexOf(a));
+        if (dshow) dshow(live.indexOf(a)); else open(live.indexOf(a));
       });
     });
     lb.querySelector('.lb__close').addEventListener('click', close);
