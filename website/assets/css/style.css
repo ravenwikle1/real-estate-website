@@ -334,6 +334,19 @@ a.card:hover .card__link::after { transform: translateX(5px); }
 .quote__mark { font-family: var(--font-display); font-size: 3rem; color: var(--blue-light); line-height: .6; display: block; margin-bottom: 14px; }
 .quote p { font-family: var(--font-display); font-size: 1.3rem; line-height: 1.62; color: var(--navy-ink); font-weight: 400; }
 .quote__by { font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-top: 22px; display: block; }
+.quote__stars { display: block; color: #C9A227; font-size: 1.05rem; letter-spacing: .12em; line-height: 1; margin-bottom: 18px; }
+.quote p + p { margin-top: .9em; }
+/* reviews page: masonry-style columns so long and short reviews pack neatly */
+.quotes { columns: 3; column-gap: clamp(22px, 3vw, 40px); }
+.quotes .quote { break-inside: avoid; margin: 0 0 clamp(22px, 3vw, 40px); }
+.quotes .quote p { font-size: 1.18rem; }
+@media (max-width: 900px) { .quotes { columns: 2; } }
+@media (max-width: 620px) { .quotes { columns: 1; } }
+.gsum { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 28px; text-align: center; margin-bottom: clamp(40px, 5vw, 60px); }
+.gsum__score { display: flex; align-items: center; gap: 14px; }
+.gsum__num { font-family: var(--font-display); font-size: clamp(2.4rem, 4vw, 3.2rem); line-height: 1; color: var(--navy-ink); }
+.gsum__score .quote__stars { margin: 0; font-size: 1.35rem; }
+.gsum__txt { margin: 0; color: var(--muted); letter-spacing: .08em; }
 
 /* Local video strip */
 .vstrip { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(12px, 1.8vw, 24px); }
