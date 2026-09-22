@@ -1,0 +1,7 @@
+# Netlify settings for Raven Wikle Real Estate.
+# Drag the whole "website" folder onto your site's Deploys page to publish.
+# Redirects and headers live in _redirects and _headers next to this file.
+
+[build]
+  publish = "."
+  functions = "netlify/functions"

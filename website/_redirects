@@ -1,0 +1,14 @@
+# Friendly addresses
+/buyers        /buyers.html        200
+/sellers       /sellers.html       200
+/search        /search.html        200
+/about         /about.html         200
+/listings      /listings.html      200
+/home-value    /home-value.html    200
+/local         /local.html         200
+/fall-guide    /fall-guide.html    200
+/reviews       /testimonials.html  200
+/testimonials  /testimonials.html  200
+
+# Keep the form-handling code out of public view if this folder is served as-is
+/netlify/*     /404.html           404!
